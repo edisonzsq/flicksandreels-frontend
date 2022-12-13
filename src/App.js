@@ -8,7 +8,6 @@ import Popular from "./components/Popular";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Route, Switch } from "react-router-dom";
-import { AuthProvider } from "./components/context/AuthProvider";
 
 function App() {
   return (
@@ -24,9 +23,7 @@ function App() {
         <Popular />
       </Route>
       <Route path="/Display">
-        <AuthProvider>
           <Display />
-        </AuthProvider>
       </Route>
       <Route path="/Login">
         <Login />

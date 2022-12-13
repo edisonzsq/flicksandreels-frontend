@@ -1,11 +1,17 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useContext } from "react";
+import { useLocalStorage } from '@har4s/use-local-storage';
 import { Link } from "react-router-dom";
+import AuthContext from "./context/AuthProvider";
 
 import "./Display.css";
 function Popular() {
   const [movieData, setMovieData] = useState([]);
+  const {auth} = useContext(AuthContext);
+  const [uid, setUid] = useLocalStorage("UID");
 
   useEffect(() => {
+    console.log("CHECK", uid);
+    return;
     const movieUrl = `https://graceful-hoodie-deer.cyclic.app/title`;
     const makeApiCall = async () => {
       let res = await fetch(movieUrl);

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, useContext } from "react";
+import { useLocalStorage } from '@har4s/use-local-storage';
 import AuthContext from "./context/AuthProvider";
 import "./Login.css";
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+  const [uid, setUid] = useLocalStorage("UID");
 
   useEffect(() => {
     userRef.current.focus();
@@ -27,8 +29,8 @@ const Login = () => {
       myHeaders.append("Content-Type", "application/json");
 
       var raw = JSON.stringify({
-        email: user,
-        password: pwd,
+        email: "12345@gmail.com",
+        password: "!CqyZ9G8ciQN3cF",
       });
 
       var requestOptions = {
@@ -42,11 +44,13 @@ const Login = () => {
         "https://graceful-hoodie-deer.cyclic.app/auth/signin",
         requestOptions
       )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("result", result?.user?.uid ? result.user.uid : null);
+          setAuth({uid: result?.user?.uid ? result.user.uid : null})
+          setUid(result?.user?.uid ? result.user.uid : null);
+        })
         .catch((error) => console.log("error", error));
-      setSuccess(true);
-      setAuth({ user, pwd });
       setUser("");
       setPwd("");
     } catch (err) {
